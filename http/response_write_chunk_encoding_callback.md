@@ -22,8 +22,12 @@ added: v0.1.29
 注意：这是原始的 HTTP 主体，且与可能被使用的高级主体编码无关。
 
 [`response.write()`] 首次被调用时，会发送缓冲的响应头信息和响应主体的第一块数据到客户端。
-[`response.write()`] 第二次被调用时，Node.js 会以流的形式处理数据，并将它们分别发送。
-也就是说，响应会被缓冲到响应主体的第一个数据块。
+[`response.write()`] 第二次被调用时，Node.js 能够确定数据会被接收，于是开始传输新数据。
+也就是说，响应的完成是取决于响应主体的第一块数据。
+
+  Node.js assumes data will be streamed, and sends the new data separately. That is, the response is buffered up to the first chunk of the body.
+
+
 
 如果全部数据被成功刷新到内核缓冲区，则返回 `true`。
 如果全部或部分数据还在内存中排队，则返回 `false`。
